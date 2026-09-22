@@ -1,0 +1,18 @@
+# dependencias
+node_modules/
+
+# build
+dist/
+
+# variables de entorno
+.env
+.env.local
+
+# logs
+*.log
+pnpm-debug.log*
+
+# editor / SO
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
