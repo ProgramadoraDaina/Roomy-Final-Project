@@ -17,7 +17,9 @@ interface ChatMessage {
 export default function RoomPage() {
   const { code } = useParams<{ code: string }>();
   const router = useRouter();
-  const [userName] = useState(() => localStorage.getItem(NAME_KEY) || 'Invitado');
+  const [userName] = useState(() =>
+    typeof window === 'undefined' ? 'Invitado' : localStorage.getItem(NAME_KEY) || 'Invitado',
+  );
   const [users, setUsers] = useState<string[]>([]);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState('');

@@ -8,7 +8,9 @@ const NAME_KEY = 'roomy:userName';
 
 export default function HomePage() {
   const router = useRouter();
-  const [name, setName] = useState(() => localStorage.getItem(NAME_KEY) ?? '');
+  const [name, setName] = useState(() =>
+    typeof window === 'undefined' ? '' : (localStorage.getItem(NAME_KEY) ?? ''),
+  );
   const [joinCode, setJoinCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
