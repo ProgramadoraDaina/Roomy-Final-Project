@@ -10,7 +10,7 @@ cp .env.example .env   # NEXT_PUBLIC_API_URL, por defecto http://localhost:3001
 pnpm dev
 ```
 
-Abrí [http://localhost:3000](http://localhost:3000). Necesita el backend corriendo para poder crear/unirse a salas.
+Abrí [http://localhost:3002](http://localhost:3002) (puerto fijo, para no chocar con el backend en `3001`). Necesita el backend corriendo para poder crear/unirse a salas.
 
 ## Scripts
 

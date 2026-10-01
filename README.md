@@ -56,7 +56,7 @@ cp .env.example .env   # NEXT_PUBLIC_API_URL, por defecto http://localhost:3001
 pnpm dev
 ```
 
-El frontend queda en `http://localhost:3000`. Necesita el backend corriendo para poder crear/unirse a salas.
+El frontend queda en `http://localhost:3002` (puerto fijo, para no chocar con el backend en `3001`). Necesita el backend corriendo para poder crear/unirse a salas.
 
 ## Estructura del proyecto
 
