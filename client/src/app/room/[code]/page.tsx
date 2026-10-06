@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState, type FormEvent, type MouseEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
+import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import type { Socket } from 'socket.io-client';
 import { createRoomSocket } from '@/lib/socket';
@@ -17,9 +18,6 @@ interface ChatMessage {
 export default function RoomPage() {
   const { code } = useParams<{ code: string }>();
   const router = useRouter();
-  const [userName] = useState(() =>
-    typeof window === 'undefined' ? 'Invitado' : localStorage.getItem(NAME_KEY) || 'Invitado',
-  );
   const [users, setUsers] = useState<string[]>([]);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState('');
@@ -30,9 +28,10 @@ export default function RoomPage() {
   useEffect(() => {
     if (!code) return;
 
+    const userName = localStorage.getItem(NAME_KEY) || 'Invitado';
     const socket = createRoomSocket();
+    let redirectTimer: ReturnType<typeof setTimeout> | undefined;
     socketRef.current = socket;
-    socket.connect();
 
     socket.on('connect', () => {
       socket.emit('joinRoom', { code, userName });
@@ -40,7 +39,8 @@ export default function RoomPage() {
 
     socket.on('error', ({ message }: { message: string }) => {
       setNotice(message);
-      setTimeout(() => router.push('/'), 2000);
+      clearTimeout(redirectTimer);
+      redirectTimer = setTimeout(() => router.push('/'), 2000);
     });
 
     socket.on('roomHistory', (history: ChatMessage[]) => setMessages(history));
@@ -60,10 +60,15 @@ export default function RoomPage() {
       setMessages((prev) => [...prev, message]);
     });
 
+    socket.connect();
+
     return () => {
+      clearTimeout(redirectTimer);
+      socket.removeAllListeners();
       socket.disconnect();
+      socketRef.current = null;
     };
-  }, [code, userName, router]);
+  }, [code, router]);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight });
@@ -76,20 +81,13 @@ export default function RoomPage() {
     setDraft('');
   }
 
-  function handleLeave(e: MouseEvent) {
-    e.preventDefault();
-    router.push('/');
-  }
-
   return (
     <div className="room-layout">
       <div className="room-header">
         <div>
           <strong>Roomy</strong> <span className="code">{code}</span>
         </div>
-        <a href="/" onClick={handleLeave}>
-          Salir
-        </a>
+        <Link href="/">Salir</Link>
       </div>
 
       {notice && <div className="notice">{notice}</div>}
