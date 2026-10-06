@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { createRoom } from '@/lib/api';
 
@@ -8,12 +8,14 @@ const NAME_KEY = 'roomy:userName';
 
 export default function HomePage() {
   const router = useRouter();
-  const [name, setName] = useState(() =>
-    typeof window === 'undefined' ? '' : (localStorage.getItem(NAME_KEY) ?? ''),
-  );
+  const [name, setName] = useState('');
   const [joinCode, setJoinCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setName(localStorage.getItem(NAME_KEY) ?? '');
+  }, []);
 
   async function handleCreate(e: FormEvent) {
     e.preventDefault();
@@ -23,7 +25,7 @@ export default function HomePage() {
     setError(null);
     try {
       const room = await createRoom(`Reunión de ${name.trim()}`);
-      router.push(`/room/${room.code}`);
+      router.push(`/room/${encodeURIComponent(room.code)}`);
     } catch {
       setError('No se pudo crear la reunión. ¿Está corriendo el backend?');
     } finally {
@@ -35,7 +37,7 @@ export default function HomePage() {
     e.preventDefault();
     if (!joinCode.trim() || !name.trim()) return;
     localStorage.setItem(NAME_KEY, name.trim());
-    router.push(`/room/${joinCode.trim()}`);
+    router.push(`/room/${encodeURIComponent(joinCode.trim())}`);
   }
 
   return (
