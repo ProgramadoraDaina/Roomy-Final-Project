@@ -42,3 +42,11 @@ src/
     ├── api.ts            # llamadas REST al backend
     └── socket.ts         # conexión Socket.io al namespace /rooms
 ```
+
+## Hoja de ruta
+
+La [hoja de ruta hacia una experiencia tipo Meet](../README.md#hoja-de-ruta-hacia-una-experiencia-tipo-meet) del README principal detalla las entregas pendientes, las alternativas de WebRTC y LiveKit y los criterios de aceptación.
+
+El próximo avance visible del frontend es la pantalla previa: previsualizar la cámara, elegir dispositivos y entrar con audio o video apagados. Luego se incorporan la videollamada, la grilla de participantes, los controles de reunión y la pantalla compartida.
+
+La planificación también contempla mano levantada, reacciones, participante fijado, indicador de quién habla, recuperación del chat, accesibilidad, uso desde el móvil y liberación de cámara y micrófono al salir.

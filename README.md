@@ -146,8 +146,86 @@ pnpm build         # build de producción
 pnpm start         # sirve el build de producción
 ```
 
-## Próximos pasos sugeridos
+## Hoja de ruta hacia una experiencia tipo Meet
 
-- Autenticación de usuarios (hoy el chat usa solo un `userName` de invitado, sin login)
-- Señalización WebRTC sobre este mismo Gateway para habilitar video/audio en vivo
-- Persistir quién está en cada sala también en la base de datos (hoy es solo en memoria del proceso)
+Roomy ya permite crear salas, entrar por código y chatear en tiempo real. Las salas y los mensajes se guardan en PostgreSQL; los participantes conectados se mantienen en memoria y se identifican en la interfaz por su nombre de invitado.
+
+Las funcionalidades de esta hoja de ruta están **pendientes de implementación**. El objetivo de la primera entrega es que dos personas puedan crear una sala, compartir el enlace, entrar desde dispositivos distintos, verse, escucharse, silenciarse y salir correctamente.
+
+### Validar la base actual
+
+Antes de ampliar el sistema, comprobar el flujo existente con el backend y PostgreSQL:
+
+- [ ] Crear una sala y entrar desde dos pestañas con nombres distintos.
+- [ ] Verificar que los mensajes lleguen a ambos participantes en tiempo real.
+- [ ] Volver a entrar y comprobar que se recupera el historial del chat.
+- [ ] Salir de la sala y comprobar que se actualiza la lista de participantes.
+
+### Entregas propuestas
+
+| Orden | Funcionalidad | Alcance |
+| ----- | ------------- | ------- |
+| 1 | Pantalla previa | Previsualizar la cámara, elegir cámara y micrófono y entrar con audio o video apagados. Explicar cómo habilitar permisos cuando se rechazan. |
+| 2 | Audio y video | Conectar dos participantes, transmitir sus medios y permitir silenciar el micrófono y apagar la cámara. |
+| 3 | Interfaz de reunión | Mostrar una grilla de participantes, una barra inferior de controles y paneles laterales para chat y personas. Incluir un botón para copiar el enlace de invitación. |
+| 4 | Compartir pantalla | Presentar una pantalla o ventana, detener la presentación y volver a la vista habitual de la reunión. |
+| 5 | Autenticación e identidad | Implementar registro, inicio y cierre de sesión. Identificar al organizador, asociar mensajes con usuarios autenticados y permitir invitados mediante un enlace. |
+| 6 | Anfitrión y acceso | Incorporar sala de espera, admitir o rechazar solicitudes, expulsar participantes, bloquear nuevos ingresos y finalizar la reunión para todos. Depende de la identidad y los permisos de la entrega anterior. |
+| 7 | Reconexión y persistencia | Mostrar el estado de conexión, recuperar una sesión sin duplicar participantes y guardar quién creó la reunión y cuándo ingresó o salió cada persona. |
+
+La pantalla previa es el siguiente avance visible recomendado. Permite probar dispositivos y permisos antes de conectar la primera videollamada. La autenticación puede desarrollarse en paralelo y debe estar lista antes de habilitar controles de anfitrión.
+
+### Elegir cómo transportar audio y video
+
+La arquitectura de medios debe definirse antes de implementar las conexiones entre participantes:
+
+- **WebRTC directo, para aprender y construir una primera llamada:** usar el Gateway de Socket.io para intercambiar ofertas, respuestas y candidatos ICE entre los navegadores. Configurar servidores STUN/TURN y probar conexiones entre distintas redes. Referencias: [dispositivos multimedia](https://webrtc.org/getting-started/media-devices), [conexiones y señalización WebRTC](https://webrtc.org/getting-started/peer-connections).
+- **Servidor de medios, para avanzar hacia reuniones grupales:** evaluar [LiveKit](https://github.com/livekit/livekit), que proporciona una SFU para recibir y distribuir audio y video entre participantes. Su SDK y servidor gestionan las conexiones de medios. NestJS puede seguir gestionando usuarios, permisos y datos del sistema.
+
+Next.js se ocupa de la interfaz y las rutas. Socket.io mantiene el chat y los eventos de la sala, y puede actuar como canal de señalización si se elige WebRTC directo. El audio y el video se transportan con WebRTC, de forma directa o a través de la SFU seleccionada.
+
+Para la pantalla previa, `getUserMedia()` permite obtener cámara y micrófono, y `enumerateDevices()` permite consultar los dispositivos disponibles. Las API del navegador se utilizan desde los componentes de cliente de Next.js.
+
+### Identidad y datos de la reunión
+
+- [ ] Asignar un ID único a cada participante. Dos personas llamadas “Alex” deben poder coexistir sin mezclar su presencia o sus mensajes.
+- [ ] Separar la identidad del participante del nombre visible y de la conexión temporal del socket.
+- [ ] Asociar cada mensaje con el usuario o participante que lo envió.
+- [ ] Guardar el organizador, los participantes y sus horarios de ingreso y salida.
+- [ ] Gestionar los estados activa y cerrada de la reunión y validar el acceso desde el backend.
+- [ ] Diferenciar una sala inexistente de una sala cerrada y mostrar un mensaje claro en cada caso.
+
+### Mejoras de participación y experiencia
+
+- [ ] Levantar la mano y enviar reacciones para participar sin interrumpir.
+- [ ] Fijar un participante para mantener su video destacado.
+- [ ] Resaltar a la persona que está hablando.
+- [ ] Conservar el borrador del chat y avisar cuando un mensaje no pudo enviarse.
+- [ ] Ofrecer controles cómodos en pantallas pequeñas y permitir navegar con teclado.
+- [ ] Explicar los errores de permisos o dispositivos y cómo continuar o resolverlos.
+- [ ] Al abandonar la sala, cerrar las conexiones, liberar cámara y micrófono y actualizar la presencia.
+
+### Criterios de aceptación
+
+Cada funcionalidad debe tener un comportamiento concreto que pueda verificarse. Estos ejemplos sirven como base para pruebas manuales y, cuando corresponda, automatizadas:
+
+| Situación | Resultado esperado |
+| --------- | ------------------ |
+| Rechazo el permiso de cámara | Puedo entrar con la cámara apagada y veo cómo habilitarla después. |
+| Dos personas usan el mismo nombre | Ambas aparecen como participantes distintos y sus mensajes se atribuyen correctamente. |
+| Dos dispositivos entran a la misma sala | Pueden verse y escucharse; verificar también desde redes distintas. |
+| Silencio mi micrófono | Los demás dejan de escucharme y ven mi estado de micrófono apagado. |
+| Comparto una pantalla y detengo la presentación | Los demás ven la presentación y luego recuperan la vista habitual de la reunión. |
+| Se interrumpe temporalmente la conexión | Veo “Reconectando…” y vuelvo sin duplicar mi participante. |
+| Un mensaje no pudo enviarse | Veo el estado de fallo y conservo el texto para volver a intentarlo. |
+| Salgo de la sala | Se liberan cámara y micrófono y dejo de aparecer entre los participantes conectados. |
+| El anfitrión finaliza la reunión | Todos salen y el mismo enlace informa que la reunión está cerrada. |
+| Uso un teléfono o navego con teclado | Los controles principales siguen siendo accesibles y utilizables. |
+
+### Etapa posterior
+
+Planificar estas funciones después de completar y validar las reuniones básicas:
+
+- [ ] Grabación de reuniones.
+- [ ] Subtítulos.
+- [ ] Fondos virtuales.
