@@ -3,7 +3,7 @@
 Clon de Google Meet — proyecto final. Monorepo simple con dos partes:
 
 - **Backend** (raíz del repo): NestJS + TypeScript + Socket.io + Drizzle ORM (PostgreSQL)
-- **Frontend** (`client/`): Next.js + TypeScript
+- **Frontend** (`client/`): Next.js 15.5.27 (App Router) + React 19 + TypeScript
 
 Todo con **pnpm** como gestor de paquetes (no usar npm ni yarn).
 
@@ -14,7 +14,7 @@ Por ahora la base incluye **salas** (crear una sala, unirse por código) y **cha
 - [NestJS](https://nestjs.com/) — framework backend
 - [Socket.io](https://socket.io/) (vía `@nestjs/websockets` + `@nestjs/platform-socket.io`) — WebSocket para salas y chat
 - [Drizzle ORM](https://orm.drizzle.team/) + PostgreSQL — acceso a base de datos
-- [Next.js](https://nextjs.org/) (App Router) — frontend
+- [Next.js](https://nextjs.org/) 15.5.27 (App Router) — frontend
 - pnpm — gestor de paquetes (no usar npm ni yarn)
 
 ## Requisitos
@@ -46,6 +46,10 @@ pnpm start:dev
 El servidor queda escuchando en `http://localhost:3001` (configurable en `.env` con `PORT`).
 
 ### Frontend (Next.js)
+
+Next.js se actualizó de **15.1.6 a 15.5.27** para incorporar parches de seguridad. La dependencia está declarada en `client/package.json` y la versión instalada queda registrada en `pnpm-lock.yaml`. La interfaz sigue usando React 19, con las rutas de Next.js App Router.
+
+El workspace fija PostCSS **8.5.23** para Next.js mediante `overrides` en `pnpm-workspace.yaml`, corrigiendo las alertas de seguridad de esa dependencia. Tras cambiar versiones, ejecutá `pnpm install` en la raíz y conservá el lockfile actualizado.
 
 En otra terminal:
 
