@@ -19,7 +19,11 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "dev:client": "pnpm --filter client dev",
+    "build:client": "pnpm --filter client build",
+    "start:client": "pnpm --filter client start",
+    "check:client": "pnpm --filter client lint && pnpm --filter client typecheck"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.4",
@@ -36,6 +40,9 @@
     "socket.io": "^4.8.3"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.31.11"
+    "@nestjs/cli": "^12.0.8",
+    "@types/node": "^26.6.4",
+    "drizzle-kit": "^0.31.11",
+    "typescript": "^6.0.3"
   }
 }

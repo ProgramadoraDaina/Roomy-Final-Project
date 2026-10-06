@@ -1,2 +1,10 @@
+packages:
+  - client
+
 allowBuilds:
   esbuild: false
+  sharp: true
+
+overrides:
+  # Patch Next.js's PostCSS dependency while keeping the Next.js 15 API.
+  'next@15>postcss': 8.5.23
