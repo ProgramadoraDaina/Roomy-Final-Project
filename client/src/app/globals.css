@@ -130,6 +130,63 @@ button.secondary:hover {
   font-size: 13px;
 }
 
+.auth-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: -4px 0 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #dadce0;
+  font-size: 13px;
+  color: #5f6368;
+}
+
+.auth-bar a {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+.auth-bar a:hover {
+  text-decoration: underline;
+}
+
+.link-button {
+  width: auto;
+  padding: 0;
+  background: none;
+  color: #1a73e8;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.link-button:hover {
+  background: none;
+  text-decoration: underline;
+}
+
+.switch-link {
+  margin: 16px 0 0;
+  font-size: 13px;
+  color: #5f6368;
+  text-align: center;
+}
+
+.switch-link a {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+.switch-link a:hover {
+  text-decoration: underline;
+}
+
+.hint {
+  margin: -10px 0 16px;
+  font-size: 12px;
+  color: #5f6368;
+}
+
 /* --- sala --- */
 
 .room-layout {
