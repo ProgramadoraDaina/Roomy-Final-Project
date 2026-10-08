@@ -1,7 +1,7 @@
 {
-  "name": "roomy",
+  "name": "date2gether",
   "version": "0.0.1",
-  "description": "Roomy - clon de Google Meet (proyecto final). Backend con NestJS, Socket.io y Drizzle ORM.",
+  "description": "Date2gether - clon de Google Meet (proyecto final). Backend con NestJS, Socket.io y Drizzle ORM.",
   "private": true,
   "license": "UNLICENSED",
   "packageManager": "pnpm@11.18.0",
@@ -29,18 +29,26 @@
     "@nestjs/common": "^12.0.4",
     "@nestjs/config": "^12.0.0",
     "@nestjs/core": "^12.0.4",
+    "@nestjs/jwt": "^12.0.2",
     "@nestjs/platform-express": "^12.0.4",
     "@nestjs/platform-socket.io": "^12.0.4",
+    "@nestjs/throttler": "^6.7.1",
     "@nestjs/websockets": "^12.0.4",
+    "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
     "dotenv": "^18.0.2",
     "drizzle-orm": "^0.45.3",
+    "helmet": "^8.3.0",
     "postgres": "^3.4.9",
-    "socket.io": "^4.8.3"
+    "socket.io": "^4.8.3",
+    "uuid": "^14.0.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^12.0.8",
+    "@types/bcrypt": "^6.0.0",
+    "@types/express": "^5.0.6",
+    "@types/ms": "^2.1.0",
     "@types/node": "^26.6.4",
     "drizzle-kit": "^0.31.11",
     "typescript": "^6.0.3"

@@ -2,6 +2,7 @@ packages:
   - client
 
 allowBuilds:
+  bcrypt: true
   esbuild: false
   sharp: true
 
