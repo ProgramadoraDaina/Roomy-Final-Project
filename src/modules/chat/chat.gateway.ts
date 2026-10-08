@@ -24,7 +24,7 @@ interface ConnectedUser {
   namespace: '/rooms',
   cors: { origin: process.env.CORS_ORIGIN ?? '*' },
 })
-@UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
+@UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }))
 export class ChatGateway implements OnGatewayDisconnect {
   @WebSocketServer()
   server!: Server;
