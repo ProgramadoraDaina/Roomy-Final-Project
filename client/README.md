@@ -1,6 +1,6 @@
-# Roomy — client
+# Date2gether — client
 
-Frontend de Roomy construido con [Next.js](https://nextjs.org/) **15.5.27** (App Router) + React 19 + TypeScript.
+Frontend de Date2gether construido con [Next.js](https://nextjs.org/) **15.5.27** (App Router) + React 19 + TypeScript.
 
 Next.js se actualizó desde **15.1.6** para incorporar parches de seguridad. La dependencia está declarada en `package.json` y la versión instalada queda registrada en el `pnpm-lock.yaml` del workspace. Next.js utiliza React para la interfaz y App Router para las rutas `/` y `/room/[code]`.
 

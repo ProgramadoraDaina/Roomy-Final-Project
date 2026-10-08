@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import type { Socket } from 'socket.io-client';
 import { createRoomSocket } from '@/lib/socket';
 
-const NAME_KEY = 'roomy:userName';
+const NAME_KEY = 'date2gether:userName';
 
 interface ChatMessage {
   id: string;
@@ -85,7 +85,7 @@ export default function RoomPage() {
     <div className="room-layout">
       <div className="room-header">
         <div>
-          <strong>Roomy</strong> <span className="code">{code}</span>
+          <strong>Date2gether</strong> <span className="code">{code}</span>
         </div>
         <Link href="/">Salir</Link>
       </div>

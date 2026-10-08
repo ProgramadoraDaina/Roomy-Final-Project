@@ -1,4 +1,4 @@
-# Roomy
+# Date2gether
 
 Clon de Google Meet — proyecto final. Monorepo simple con dos partes:
 
@@ -148,7 +148,7 @@ pnpm start         # sirve el build de producción
 
 ## Hoja de ruta hacia una experiencia tipo Meet
 
-Roomy ya permite crear salas, entrar por código y chatear en tiempo real. Las salas y los mensajes se guardan en PostgreSQL; los participantes conectados se mantienen en memoria y se identifican en la interfaz por su nombre de invitado.
+Date2gether ya permite crear salas, entrar por código y chatear en tiempo real. Las salas y los mensajes se guardan en PostgreSQL; los participantes conectados se mantienen en memoria y se identifican en la interfaz por su nombre de invitado.
 
 Las funcionalidades de esta hoja de ruta están **pendientes de implementación**. El objetivo de la primera entrega es que dos personas puedan crear una sala, compartir el enlace, entrar desde dispositivos distintos, verse, escucharse, silenciarse y salir correctamente.
 

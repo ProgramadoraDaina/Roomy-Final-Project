@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Roomy',
+  title: 'Date2gether',
   description: 'Videollamadas simples, en el navegador.',
   icons: { icon: '/favicon.svg' },
 };

@@ -1,16 +1,16 @@
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: roomy-postgres
+    container_name: date2gether-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: roomy
-      POSTGRES_PASSWORD: roomy
-      POSTGRES_DB: roomy
+      POSTGRES_USER: date2gether
+      POSTGRES_PASSWORD: date2gether
+      POSTGRES_DB: date2gether
     ports:
       - '5432:5432'
     volumes:
-      - roomy_postgres_data:/var/lib/postgresql/data
+      - date2gether_postgres_data:/var/lib/postgresql/data
 
 volumes:
-  roomy_postgres_data:
+  date2gether_postgres_data:
